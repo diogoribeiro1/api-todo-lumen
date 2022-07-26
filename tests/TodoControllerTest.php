@@ -29,12 +29,13 @@ class TodoControllerTest extends TestCase
 
     public function testUserCanRetrieveAllTodos()
     {
-        $model = Todo::factory()->create();
+        $model = Todo::factory(5)->create();
 
         $result = $this->get('/todos');
 
         $result->assertResponseOk();
-        $result->seeJsonContains(['title' => $model->title]);
+        $result->seeJsonStructure(['current_page']);
+
     }
 
     public function testUserCanRetrieveASpecificTodo()
@@ -46,19 +47,6 @@ class TodoControllerTest extends TestCase
         $response->assertResponseOk();
         $response->seeJsonContains(['title' => $model->title]);
     }
-
-    public function testUserCanDeleteATodo()
-    {
-        $model = Todo::factory()->create();
-
-        $response = $this->delete('/todo/' . $model->id);
-
-        $response->assertResponseStatus(204);
-        $response->notSeeInDatabase('todos',[
-            'id' => $model->id
-        ]);
-    }
-
     public function testUserCanUpdateATodo()
     {
         $payload = [
@@ -73,4 +61,28 @@ class TodoControllerTest extends TestCase
         $response->assertResponseOk();
         $response->seeJsonContains(['title' => $payload['title']]);
     }
+
+    public function testUserCanDeleteATodo()
+    {
+        $model = Todo::factory()->create();
+
+        $response = $this->delete('/todo/' . $model->id);
+
+        $response->assertResponseStatus(204); // 204 = No Content
+        $response->notSeeInDatabase('todos',['id' => $model->id]);
+    }
+
+    public function testUserShouldDeleteATodoNotExisting()
+    {
+        $model = Todo::factory()->create();
+
+        $response = $this->delete('/todo/' . 10);
+
+        $response->assertResponseStatus(404); // 204 = No Content
+        $response->seeJsonContains(['error' => 'Not Found']);
+    }
+
+
+
+
 }

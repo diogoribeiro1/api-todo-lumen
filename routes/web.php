@@ -20,6 +20,7 @@ $router->get('/', function () use ($router) {
 
 $router->get('/todos', 'TodoController@index');
 $router->get('/todo/{id}', 'TodoController@show');
+$router->get('/todo/{id}/done', 'TodoController@doneTodo');
 $router->post('/todo', 'TodoController@store');
 $router->put('/todo/{id}', 'TodoController@update');
 $router->delete('/todo/{id}', 'TodoController@destroy');

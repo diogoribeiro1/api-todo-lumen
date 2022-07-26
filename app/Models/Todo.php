@@ -27,4 +27,12 @@ class Todo extends Model
         ]);
     }
 
+    public function undone(): void
+    {
+        $this->update([
+            'done' => false,
+            'done_at'=> null
+        ]);
+    }
+
 }
