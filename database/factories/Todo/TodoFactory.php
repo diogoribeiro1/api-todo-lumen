@@ -1,9 +1,8 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Todo;
 
-use App\Models\Todo;
-use App\Models\User;
+use App\Models\Todo\Todo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TodoFactory extends Factory

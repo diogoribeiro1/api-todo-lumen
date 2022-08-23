@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests;
-use App\Models\Todo;
+namespace Tests\Todo;
+use App\Models\Todo\Todo;
 use Laravel\Lumen\Testing\DatabaseMigrations;
+use Tests\TestCase;
 
 class TodoControllerTest extends TestCase
 {
@@ -11,18 +12,15 @@ class TodoControllerTest extends TestCase
     public function testUserCanCreateATodo()
     {
         //prepare
-
             $payload = [
                 'title' => 'titulo qualquer',
                 'description' => 'descrição qualquer'
             ];
 
         //act
-
         $result = $this->post('/todo', $payload);
 
         //assert
-
         $result->assertResponseStatus(201);
         $result->seeInDatabase('todos', $payload);
     }
